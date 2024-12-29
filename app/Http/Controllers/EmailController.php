@@ -12,7 +12,7 @@ class EmailController extends Controller
         $toEmail = "paraspurwar5@gmail.com";
         $message = "This is email message.";
         $subject = "This is subject";
-        $request = Mail::to($toEmail)->send(new welcomeemail($message,$subject));
-        dd($request);
+        //$request = Mail::to($toEmail)->send(new welcomeemail($message,$subject));
+       // dd($request);
     }
 }
