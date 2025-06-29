@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Profile;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 🔥 Disable foreign key checks temporarily
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // 🔁 Truncate tables in order: children first, then parents
+        Post::truncate();
+        //Profile::truncate();
+        User::truncate();
+
+        // ✅ Enable them back
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        // ➕ Now seed the database
+        User::factory()->count(10)->create()->each(function ($user) {
+            // Each user gets 3 posts
+            Post::factory()->count(3)->create([
+                'user_id' => $user->id,
+            ]);
+        });
+
+        Profile::factory()->count(10)->create();
     }
 }

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Profile;
 
 class User extends Authenticatable
 {
@@ -30,8 +33,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        // 'password',
+        // 'remember_token',
     ];
 
     /**
@@ -46,4 +49,35 @@ class User extends Authenticatable
         ];
         //return[];
     }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    // ✅ Custom method to get profile data
+    public function getProfileData(): ?array
+    {
+        $profile = $this->profile;
+
+        if (! $profile) {
+            return null;
+        }
+
+        return [
+            'user' => $this->name,
+            'email' => $this->email,
+            'profile' => [
+                'bio' => $profile->bio,
+                'phone' => $profile->phone,
+            ]
+        ];
+    }
+
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
 }

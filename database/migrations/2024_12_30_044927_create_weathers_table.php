@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('weathers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('remember_token', 100)->nullable();
-            $table->string('password');
+            $table->string('city');
+            $table->float('temperature');
+            $table->float('humidity');
+            $table->float('pressure');
+            $table->float('wind_speed');
+            $table->text('weather_description');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('weathers');
     }
 };
