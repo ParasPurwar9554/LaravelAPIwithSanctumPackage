@@ -55,4 +55,26 @@ class UserprofileController extends Controller
 
         return response()->json($posts);
     }
+
+    public function getUserRolesByUserId(Request $request)
+    {
+        $userId = 10;
+        if (! $userId) {
+            return response()->json(['message' => 'User ID is required'], 400);
+        }
+
+        $user = User::with('roles')->find($userId);
+
+        if (! $user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $roles = $user->roles;
+
+        if ($roles->isEmpty()) {
+            return response()->json(['message' => 'No roles found for this user'], 404);
+        }
+
+        return response()->json($roles);
+    }
 }

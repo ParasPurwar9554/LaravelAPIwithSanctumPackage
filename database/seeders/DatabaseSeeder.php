@@ -15,16 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 🔥 Disable foreign key checks temporarily
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        // 🔁 Truncate tables in order: children first, then parents
-        Post::truncate();
-        //Profile::truncate();
-        User::truncate();
-
-        // ✅ Enable them back
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+         $this->call(RoleSeeder::class); // seed roles first
+      
+         \App\Models\User::factory(10)->create(); 
+    
 
         // ➕ Now seed the database
         User::factory()->count(10)->create()->each(function ($user) {
@@ -34,6 +29,6 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
-        Profile::factory()->count(10)->create();
+        //Profile::factory()->count(10)->create();
     }
 }

@@ -23,3 +23,4 @@ Route::post('/get-weather', [WeatherController::class, 'getWeather'])->middlewar
 Route::get('/users', [UserprofileController::class, 'getUsers']);
 Route::get('/getProfileByUserId', [UserprofileController::class, 'getProfileByUserId']);
 Route::get('/getPostByUserId', [UserprofileController::class, 'getPostByUserId']);
+Route::get('/getUserRolesByUserId', [UserprofileController::class, 'getUserRolesByUserId']);
